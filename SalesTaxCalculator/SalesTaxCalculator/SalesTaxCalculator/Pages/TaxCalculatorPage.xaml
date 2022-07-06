@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:MvxContentPage
+    x:TypeArguments="pageModels:TaxCalculatorPageModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    IconImageSource="{extensions:ImageResource SalesTaxCalculator.Icons.tax.png}"
+    xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+    xmlns:pageModels="clr-namespace:SalesTaxCalculator.PageModels;assembly=SalesTaxCalculator"
+    xmlns:controls="clr-namespace:SalesTaxCalculator.Controls;assembly=SalesTaxCalculator"
+    xmlns:extensions="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:r="clr-namespace:SalesTaxCalculator.Resources;assembly=SalesTaxCalculator"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:local="clr-namespace:SalesTaxCalculator;assembly=SalesTaxCalculator"
+    xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
+    Title="{x:Static r:AppResources.TaxTabTitle}"
+    x:Class="SalesTaxCalculator.Pages.TaxCalculatorPage"
+    x:DataType="pageModels:TaxCalculatorPageModel">
+    <ContentView>
+        <Grid
+            RowDefinitions="*,50, *,50, auto">
+            <ContentView
+                Grid.RowSpan="2"
+                Padding="16">
+                <ContentView.Background>
+                    <LinearGradientBrush
+                        EndPoint="0.5,1">
+                        <GradientStop
+                            Color="{StaticResource OrangeColor}"
+                            Offset="0.1" />
+                        <GradientStop
+                            Color="{StaticResource DarkOrangeColor}"
+                            Offset="1" />
+                    </LinearGradientBrush>
+                </ContentView.Background>
+                <StackLayout
+                    Margin="{local:SafeArea IncludeTop=True}"
+                    Spacing="0"
+                    VerticalOptions="Start"
+                    IsVisible="{Binding TaxDetailsModel, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                    <Label
+                        FontSize="26"
+                        TextColor="{StaticResource WhiteColor}"
+                        FontAttributes="Bold"
+                        HorizontalOptions="End">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    Text="{Binding TaxDetailsModel.Jurisdictions.Country}" />
+                                <Span
+                                    Text=" ("
+                                    TextColor="{StaticResource BlackColor}" />
+                                <Span
+                                    Text="{Binding TaxDetailsModel.Jurisdictions.State}"
+                                    TextColor="{StaticResource BlackColor}" />
+                                <Span
+                                    Text=")"
+                                    TextColor="{StaticResource BlackColor}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label
+                        TextColor="{StaticResource WhiteColor}"
+                        HorizontalOptions="End"
+                        FontAttributes="Bold">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    Text="{x:Static r:AppResources.TaxSourceLabel}" />
+                                <Span
+                                    Text="{Binding TaxDetailsModel.TaxSource}"
+                                    TextTransform="Uppercase"
+                                    TextColor="{StaticResource BlackColor}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <StackLayout
+                        Margin="0,20,0,0">
+                        <Label
+                            TextColor="{StaticResource WhiteColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        Text="{x:Static r:AppResources.AmountToCollectLabel}" />
+                                    <Span
+                                        Text="{Binding TaxDetailsModel.AmountToCollect}"
+                                        TextColor="{StaticResource BlackColor}"
+                                        FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            TextColor="{StaticResource WhiteColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        Text="{x:Static r:AppResources.OrderTotalAmountLabel}" />
+                                    <Span
+                                        Text="{Binding TaxDetailsModel.OrderTotalAmount}"
+                                        TextColor="{StaticResource BlackColor}"
+                                        FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            TextColor="{StaticResource WhiteColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        Text="{x:Static r:AppResources.RateLabel}" />
+                                    <Span
+                                        Text="{Binding TaxDetailsModel.Rate}"
+                                        TextColor="{StaticResource BlackColor}"
+                                        FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            TextColor="{StaticResource WhiteColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        Text="{x:Static r:AppResources.TaxableAmountLabel}" />
+                                    <Span
+                                        Text="{Binding TaxDetailsModel.TaxableAmount}"
+                                        TextColor="{StaticResource BlackColor}"
+                                        FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Grid
+                            RowDefinitions="auto, auto"
+                            ColumnDefinitions="*,*"
+                            InputTransparent="True">
+                            <Label
+                                Text="{x:Static r:AppResources.FreightTaxableLabel}"
+                                TextColor="{StaticResource WhiteColor}" />
+                            <Switch
+                                Grid.Row="1"
+                                IsToggled="{Binding TaxDetailsModel.FreightTaxable}"
+                                OnColor="{StaticResource WhiteColor}" 
+                                ThumbColor="{StaticResource BlackColor}" 
+                                HorizontalOptions="Start" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{x:Static r:AppResources.NexusLabel}"
+                                TextColor="{StaticResource WhiteColor}" />
+                            <Switch
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                IsToggled="{Binding TaxDetailsModel.HasNexus}"
+                                OnColor="{StaticResource WhiteColor}" 
+                                ThumbColor="{StaticResource BlackColor}" 
+                                HorizontalOptions="Start" />
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+
+            <ScrollView
+                Grid.Row="1"
+                Grid.RowSpan="3"
+                VerticalScrollBarVisibility="Never">
+                <yummy:PancakeView
+                    BackgroundColor="{StaticResource WhiteColor}"
+                    CornerRadius="40,40,0,0"
+                    Margin="30,0"
+                    Padding="30">
+                    <yummy:PancakeView.Border>
+                        <yummy:Border
+                            Thickness="3"
+                            Color="{StaticResource DarkOrangeColor}" />
+                    </yummy:PancakeView.Border>
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        RowDefinitions="auto,auto,auto,auto">
+                        <controls:CustomEntry
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Text="{Binding TaxModel.Amount.Value}"
+                            Title="Amount" />
+                        <controls:CustomEntry
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{Binding TaxModel.Shipping.Value}"
+                            Title="Shipping" />
+
+                        <controls:CustomEntry
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Text="{Binding TaxModel.FromCountry.Value}"
+                            Title="From Country"
+                            MaxLength="2" />
+                        <controls:CustomEntry
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding TaxModel.ToCountry.Value}"
+                            Title="To Country"
+                            MaxLength="2" />
+
+                        <controls:CustomEntry
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Text="{Binding TaxModel.FromState.Value}"
+                            Title="From State" />
+                        <controls:CustomEntry
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Text="{Binding TaxModel.ToState.Value}"
+                            Title="To State" />
+
+                        <controls:CustomEntry
+                            Grid.Column="0"
+                            Grid.Row="3"
+                            Text="{Binding TaxModel.FromZip.Value}"
+                            Title="From Zip" />
+                        <controls:CustomEntry
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            Text="{Binding TaxModel.ToZip.Value}"
+                            Title="To Zip" />
+                    </Grid>
+                </yummy:PancakeView>
+            </ScrollView>
+            <ContentView
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                BackgroundColor="{StaticResource DarkOrangeColor}">
+                <ContentView
+                    Padding="0,20"
+                    BackgroundColor="{StaticResource DarkOrangeColor}"
+                    effects:TouchEffect.NativeAnimation="True"
+                    effects:TouchEffect.Command="{Binding CalculateTaxesCommand}">
+                    <Label
+                        Text="{x:Static r:AppResources.CalculateTaxesLabel}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource WhiteColor}"
+                        FontSize="Large" />
+                </ContentView>
+            </ContentView>
+        </Grid>
+    </ContentView>
+</views:MvxContentPage>
